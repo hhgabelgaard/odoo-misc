@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from openerp import models, fields
+from openerp.osv import osv
+from openerp.osv import fields
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -61,7 +62,7 @@ def get_diff_html(base_commit, main_commit=False):
     return html_string
 
 
-class git_setting(models.Model):
+class git_setting(osv.osv):
     _name = 'git.setting'
     _description = 'Git setting'
 
@@ -162,7 +163,7 @@ class git_setting(models.Model):
                     diff = get_diff_html(commit)
                     cr_ids = [cr_pool.create(
                         cr, uid, {
-                            'name':commit.hexsha,
+                            'name': commit.hexsha,
                             'message': commit.message,
                             'author': str(commit.author),
                             'git_id': self_rec.id,
@@ -175,7 +176,7 @@ class git_setting(models.Model):
 git_setting()
 
 
-class git_project(models.Model):
+class git_project(osv.osv):
     _name = 'git.project'
     _rec_name = "project_id"
 
@@ -191,7 +192,7 @@ class git_project(models.Model):
 git_project()
 
 
-class project_project(models.Model):
+class project_project(osv.osv):
     _inherit = 'project.project'
 
     _columns = {
@@ -249,7 +250,7 @@ class project_project(models.Model):
 project_project()
 
 
-class git_branch(models.Model):
+class git_branch(osv.osv):
     _name = 'git.branch'
     _columns = {
         'name': fields.char('Branch Name', size=256),
@@ -261,7 +262,7 @@ class git_branch(models.Model):
 git_branch()
 
 
-class git_commit(models.Model):
+class git_commit(osv.osv):
     _name = 'git.commit'
     _description = 'Git setting'
     _rec_name = "display_name"
@@ -289,7 +290,7 @@ class git_commit(models.Model):
 git_commit()
 
 
-class project_task(models.Model):
+class project_task(osv.osv):
     _inherit = 'project.task'
 
     def _get_related_commit(self, cr, uid, ids, name, arg, context={}):
@@ -321,19 +322,18 @@ class project_task(models.Model):
 
 #     def create(self, cr, uid, values, context=None):
 #         """
-#         #TODO make doc string
+# TODO make doc string
 #         Comment this
 #         """
 #         if context is None:
 #             context = {}
-#         #TODO : process on result
+# TODO : process on result
 #         values['tracking_number'] = self.pool.get('ir.sequence').get(
 #             cr, uid, 'project.task.tracking')
 #         return super(project_task, self).create(cr, uid,
 #                                                 values, context=context)
 
 project_task()
-
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

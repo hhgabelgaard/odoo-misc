@@ -15,4 +15,3 @@ class diff_commi(osv.osv_memory):
     }
 
 diff_commi()
-
