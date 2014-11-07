@@ -84,7 +84,9 @@ class git_setting(osv.osv):
             git_url = git_url.replace("//", "//%s:%s@" % (user_name, password))
         return git_url
 
-    def clone_project(self, cr, uid, ids, project_data, context={}):
+    def clone_project(self, cr, uid, ids, project_data, context=None):
+        if context is None:
+            context = {}
         for self_rec in self.browse(cr, uid, ids, context=context):
             git_url = self.get_url(project_data['git_url'], self_rec.username,
                                    self_rec.password)
@@ -98,7 +100,9 @@ class git_setting(osv.osv):
 
         return True
 
-    def pull_project(self, cr, uid, ids, project_data, context={}):
+    def pull_project(self, cr, uid, ids, project_data, context=None):
+        if context is None:
+            context = {}
         for self_rec in self.browse(cr, uid, ids, context=context):
             project_path = os.path.join(
                 self_rec.git_folder,
@@ -112,7 +116,9 @@ class git_setting(osv.osv):
 
         return True
 
-    def git_clone_pull(self, cr, uid, ids, project_data, context={}):
+    def git_clone_pull(self, cr, uid, ids, project_data, context=None):
+        if context is None:
+            context = {}
         pro_pool = self.pool.get('git.project')
         for self_rec in self.browse(cr, uid, ids, context=context):
             project_path = os.path.join(
@@ -134,7 +140,9 @@ class git_setting(osv.osv):
                     cr, uid, project_data['id'], {'git_project_id': cr_id})
         return True
 
-    def get_all_commits(self, cr, uid, ids, project, context={}):
+    def get_all_commits(self, cr, uid, ids, project, context=None):
+        if context is None:
+            context = {}
         br_pool = self.pool.get('git.branch')
         cr_pool = self.pool.get('git.commit')
         for self_rec in self.browse(cr, uid, ids, context=context):
@@ -206,8 +214,10 @@ class project_project(osv.osv):
             "https://BizzAppDev@bitbucket.org/BizzAppDev/oerp_project_git.git")
     }
 
-    def onchange_branch(self, cr, uid, ids, branch_id, commit_ids, context={}):
-
+    def onchange_branch(
+            self, cr, uid, ids, branch_id, commit_ids, context=None):
+        if context is None:
+            context = {}
         res = {'value': {}}
         if not branch_id:
             res['value']['commit_ids'] = []
@@ -223,7 +233,9 @@ class project_project(osv.osv):
 
         return res
 
-    def get_git_repo(self, cr, uid, ids, context={}):
+    def get_git_repo(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
         sett_pool = self.pool.get('git.setting')
         set_ids = sett_pool.search(cr, uid, [])
         for self_rec in self.browse(cr, uid, ids, context=context):
@@ -240,7 +252,9 @@ class project_project(osv.osv):
                                       context=context)
         return True
 
-    def get_all_commits(self, cr, uid, ids, context={}):
+    def get_all_commits(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
         sett_pool = self.pool.get('git.setting')
         set_ids = sett_pool.search(cr, uid, [])
         for self_rec in self.browse(cr, uid, ids, context=context):
@@ -267,7 +281,9 @@ class git_commit(osv.osv):
     _description = 'Git setting'
     _rec_name = "display_name"
 
-    def _get_display_name(self, cr, uid, ids, name, arg, context={}):
+    def _get_display_name(self, cr, uid, ids, name, arg, context=None):
+        if context is None:
+            context = {}
         ret_val = {}
         for self_rec in self.browse(cr, uid, ids, context=context):
             ret_val[self_rec.id] = self_rec.name[:8]
@@ -293,7 +309,9 @@ git_commit()
 class project_task(osv.osv):
     _inherit = 'project.task'
 
-    def _get_related_commit(self, cr, uid, ids, name, arg, context={}):
+    def _get_related_commit(self, cr, uid, ids, name, arg, context=None):
+        if context is None:
+            context = {}
         ret_val = {}
         for self_rec in self.browse(cr, uid, ids, context=context):
             ret_val[self_rec.id] = []

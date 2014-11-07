@@ -3,7 +3,7 @@
 	<name>odoo-misc</name>
 	<comment></comment>
 	<projects>
-		<project>Odoo8</project>
+		<project>odoo8rc1</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
