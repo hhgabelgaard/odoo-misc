@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp.osv import osv
-from openerp.osv import fields
+from openerp import models, fields
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -62,7 +61,7 @@ def get_diff_html(base_commit, main_commit=False):
     return html_string
 
 
-class git_setting(osv.osv):
+class git_setting(models.Model):
     _name = 'git.setting'
     _description = 'Git setting'
 
@@ -176,7 +175,7 @@ class git_setting(osv.osv):
 git_setting()
 
 
-class git_project(osv.osv):
+class git_project(models.Model):
     _name = 'git.project'
     _rec_name = "project_id"
 
@@ -192,7 +191,7 @@ class git_project(osv.osv):
 git_project()
 
 
-class project_project(osv.osv):
+class project_project(models.Model):
     _inherit = 'project.project'
 
     _columns = {
@@ -250,7 +249,7 @@ class project_project(osv.osv):
 project_project()
 
 
-class git_branch(osv.osv):
+class git_branch(models.Model):
     _name = 'git.branch'
     _columns = {
         'name': fields.char('Branch Name', size=256),
@@ -262,7 +261,7 @@ class git_branch(osv.osv):
 git_branch()
 
 
-class git_commit(osv.osv):
+class git_commit(models.Model):
     _name = 'git.commit'
     _description = 'Git setting'
     _rec_name = "display_name"
@@ -290,7 +289,7 @@ class git_commit(osv.osv):
 git_commit()
 
 
-class project_task(osv.osv):
+class project_task(models.Model):
     _inherit = 'project.task'
 
     def _get_related_commit(self, cr, uid, ids, name, arg, context={}):
@@ -320,18 +319,18 @@ class project_task(osv.osv):
             type='many2many', relation="git.commit", store=False),
     }
 
-    def create(self, cr, uid, values, context=None):
-        """
-        #TODO make doc string
-        Comment this
-        """
-        if context is None:
-            context = {}
-        #TODO : process on result
-        values['tracking_number'] = self.pool.get('ir.sequence').get(
-            cr, uid, 'project.task.tracking')
-        return super(project_task, self).create(cr, uid,
-                                                values, context=context)
+#     def create(self, cr, uid, values, context=None):
+#         """
+#         #TODO make doc string
+#         Comment this
+#         """
+#         if context is None:
+#             context = {}
+#         #TODO : process on result
+#         values['tracking_number'] = self.pool.get('ir.sequence').get(
+#             cr, uid, 'project.task.tracking')
+#         return super(project_task, self).create(cr, uid,
+#                                                 values, context=context)
 
 project_task()
 
