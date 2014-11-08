@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from openerp.osv import osv
+from openerp.osv import orm
 from openerp.osv import fields
+from github import Github
+
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -62,7 +64,7 @@ def get_diff_html(base_commit, main_commit=False):
     return html_string
 
 
-class git_setting(osv.osv):
+class git_setting(orm.Model):
     _name = 'git.setting'
     _description = 'Git setting'
 
@@ -184,7 +186,7 @@ class git_setting(osv.osv):
 git_setting()
 
 
-class git_project(osv.osv):
+class git_project(orm.Model):
     _name = 'git.project'
     _rec_name = "project_id"
 
@@ -194,13 +196,15 @@ class git_project(osv.osv):
         'git_setting_id': fields.many2one('git.setting', 'Git Setting'),
         'branch_ids': fields.one2many('git.branch', 'git_project_id',
                                       'Branches'),
+        'gh_name': fields.char('Github repo', size=64),
+        'gh_token': fields.char('Github repo', size=64),
 
     }
 
 git_project()
 
 
-class project_project(osv.osv):
+class project_project(orm.Model):
     _inherit = 'project.project'
 
     _columns = {
@@ -264,7 +268,7 @@ class project_project(osv.osv):
 project_project()
 
 
-class git_branch(osv.osv):
+class git_branch(orm.Model):
     _name = 'git.branch'
     _columns = {
         'name': fields.char('Branch Name', size=256),
@@ -276,7 +280,7 @@ class git_branch(osv.osv):
 git_branch()
 
 
-class git_commit(osv.osv):
+class git_commit(orm.Model):
     _name = 'git.commit'
     _description = 'Git setting'
     _rec_name = "display_name"
@@ -306,7 +310,7 @@ class git_commit(osv.osv):
 git_commit()
 
 
-class project_task(osv.osv):
+class project_task(orm.Model):
     _inherit = 'project.task'
 
     def _get_related_commit(self, cr, uid, ids, name, arg, context=None):
@@ -331,12 +335,29 @@ class project_task(osv.osv):
         return ret_val
 
     _columns = {
-        'tracking_number': fields.char('Tracking Number', size=16,
-                                       help="Mention this number in commit"),
+        'tracking_number': fields.integer('Tracking Number',
+                                          help="Mention this number in commit"),
         'related_commit_ids': fields.function(
             _get_related_commit, method=True, string='Related commit',
             type='many2many', relation="git.commit", store=False),
     }
+
+    def button_create_open_issue(self, cr, uid, ids, context=None, *args):
+
+        # remove users
+        tsk = self.browse(cr, uid, ids)[0]
+
+        if tsk.tracking_number:
+            g = Github(tsk.project_id.git_project_id.gh_token)
+            repo = g.get_user().get_repo(tsk.project_id.git_project_id.gh_name)
+            issue = repo.get_issue(tsk.tracking_number)
+            return {'type': 'ir.actions.act_url', 'url': issue.html_url,
+                    'nodestroy': True, 'target': 'new'}
+        else:
+            g = Github(tsk.project_id.git_project_id.gh_token)
+            repo = g.get_user().get_repo(tsk.project_id.git_project_id.gh_name)
+            issue = repo.create_issue(tsk.name, body=tsk.description)
+            return self.write(cr, uid, ids, {'tracking_number': issue.number})
 
 #     def create(self, cr, uid, values, context=None):
 #         """
