@@ -22,10 +22,13 @@
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
             <form string="Git Setting">
+            <group>
                 <field name="name" select="1"/>
                  <field name="username"/>
                 <field name="password" password="1"/>
                 <field name="git_folder"/>
+                
+                </group>
             </form>
             </field>
         </record>
@@ -171,6 +174,8 @@
             <field name="arch" type="xml">
             <form string="Git Project">
                 <field name="git_path"/>
+                <field name="gh_name"/>
+                <field name="gh_token"/>
                 <field name="project_id"/>
                 <field name="git_setting_id"/>
                 <separator string="Branches" colspan="4"/>

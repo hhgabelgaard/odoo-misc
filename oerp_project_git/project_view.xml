@@ -39,7 +39,8 @@
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='project_id']" position="before">
-                    <field name="tracking_number" readonly="1"/>
+                    <field name="tracking_number"/>
+                    <button name="button_create_open_issue" type="object" string="GitHub" help=""/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page string="Commits">
