@@ -335,8 +335,9 @@ class project_task(orm.Model):
         return ret_val
 
     _columns = {
-        'tracking_number': fields.integer('Tracking Number',
-                                          help="Mention this number in commit"),
+        'tracking_number': fields.integer(
+            'Tracking Number',
+            help="Mention this number in commit"),
         'related_commit_ids': fields.function(
             _get_related_commit, method=True, string='Related commit',
             type='many2many', relation="git.commit", store=False),
