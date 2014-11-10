@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api
 from github import Github
 from slugify import slugify
 
@@ -50,9 +50,10 @@ class project_github_ghaccount(models.Model):
                 if ghrepo.ghrepoid == repo.id:
                     new_repo = False
             if new_repo:
-                self.env['project_github.ghrepo'].create({'name': repo.name,
-                                                          'ghrepoid': repo.id,
-                                                          'ghaccount_id': self.id})
+                self.env['project_github.ghrepo'].create(
+                    {'name': repo.name,
+                     'ghrepoid': repo.id,
+                     'ghaccount_id': self.id})
 
 
 class project_github_ghrepo(models.Model):
@@ -114,7 +115,8 @@ class project_task(models.Model):
                 repo = g.get_user().get_repo(self.project_id.ghrepo_id.name)
 
             link = '%s/?db=%s#id=%s&amp;view_type=form&amp;model=project.task' \
-                % (self.env['ir.config_parameter'].search([('key', '=', 'web.base.url')])[0].value,
+                % (self.env['ir.config_parameter'].search(
+                    [('key', '=', 'web.base.url')])[0].value,
                    self.env.cr.dbname, self.id)
             issue = repo.create_issue(self.name, body=link)
             self.ghissue = issue.number
