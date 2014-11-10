@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from openerp.osv import osv
 from openerp.osv import fields
+from github import Github
+
 import logging
 
 _logger = logging.getLogger(__name__)

@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
 encoding//oerp_project_git/project.py=utf-8
+encoding//project_github/__init__.py=utf-8
+encoding//project_github/__openerp__.py=utf-8
+encoding//project_github/project_github.py=utf-8

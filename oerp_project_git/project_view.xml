@@ -61,5 +61,18 @@
             </field>
         </record>
 
+ 		<record id="view_res_user_form" model="ir.ui.view">
+            <field name="name">res.user.form</field>
+            <field name="model">res.users</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='messaging']" position="after">
+                	<group string="GitHub" name="github"> 
+                	<field name="ghtoken"/>
+                	</group>
+                </xpath>
+            </field>
+        </record>
     </data>
 </openerp>
