@@ -13,7 +13,14 @@
                         
                     </group>
                     <group states="done" colspan="4">
-                        <!--  <field name="module_ids"/>  -->
+                        <field name="module_ids">
+                        	<tree>
+                        		<field name="module_id"/>
+                        		<field name="nb_tot"/>
+                        		<field name="nb_trans"/>
+                        		<field name="percent"/>
+                        	</tree>
+                        </field>
                     </group>
                     <footer states="init">
                         <button name="lang_show" string="Show" type="object" class="oe_highlight"/> or 
