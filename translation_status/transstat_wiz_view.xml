@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_transstat_language" model="ir.ui.view">
+            <field name="name">Show Translation Status</field>
+            <field name="model">transstat.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Show Translation Status">
+                    <field name="state" invisible="1"/>
+                    <group states="init">
+                    	<field name="lang"/> 
+                        
+                    </group>
+                    <group states="done" colspan="4">
+                        <!--  <field name="module_ids"/>  -->
+                    </group>
+                    <footer states="init">
+                        <button name="lang_show" string="Show" type="object" class="oe_highlight"/> or 
+                        <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
+                    <footer states="done">
+                        <button special="cancel" string="Close"/>
+                    </footer>
+                </form>
+           </field>
+        </record>
+
+        <record id="action_view_transstat_language" model="ir.actions.act_window">
+            <field name="name">Show Translation Status</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">transstat.wiz</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+            name="Show Translation Status"
+            action="action_view_transstat_language"
+            id="menu_view_transstat_language"
+            parent="base.menu_translation" sequence="10"/>
+    </data>
+</openerp>
+
