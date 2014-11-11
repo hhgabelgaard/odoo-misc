@@ -132,8 +132,9 @@ class project_task(models.Model):
                     self.project_id.ghrepo_id.name)
             else:
                 repo = g.get_user().get_repo(self.project_id.ghrepo_id.name)
-            ref = repo.get_git_ref('heads/%s' % (self.ghbranch))
-            return {'type': 'ir.actions.act_url', 'url': ref.url,
+            link = "https://github.com/%s/%s/tree/%s" % (
+                self.project_id.ghrepo_id.ghaccount_id.name, self.project_id.ghrepo_id.name, self.ghbranch)
+            return {'type': 'ir.actions.act_url', 'url': link,
                     'nodestroy': True, 'target': 'new'}
         else:
             g = Github(self.env.user.ghtoken)
