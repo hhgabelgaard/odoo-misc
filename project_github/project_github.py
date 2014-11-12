@@ -133,7 +133,8 @@ class project_task(models.Model):
             else:
                 repo = g.get_user().get_repo(self.project_id.ghrepo_id.name)
             link = "https://github.com/%s/%s/tree/%s" % (
-                self.project_id.ghrepo_id.ghaccount_id.name, self.project_id.ghrepo_id.name, self.ghbranch)
+                self.project_id.ghrepo_id.ghaccount_id.name,
+                self.project_id.ghrepo_id.name, self.ghbranch)
             return {'type': 'ir.actions.act_url', 'url': link,
                     'nodestroy': True, 'target': 'new'}
         else:
