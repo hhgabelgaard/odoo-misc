@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="view_project_project_form" model="ir.ui.view">
+			<field name="name">project.project.form</field>
+			<field name="model">project.project</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8" />
+			<field name="inherit_id" ref="project.edit_project" />
+			<field name="arch" type="xml">
+				<xpath expr="//notebook" position="inside">
+					<page string="GitHub Setting">
+						<group colspan="4" col="4">
+							<field name="ghrepo_id" />
+
+						</group>
+					</page>
+				</xpath>
+
+			</field>
+		</record>
+		
+		<record id="view_project_task_form" model="ir.ui.view">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='progress']" position="after">
+                    <field name="ghissue" attrs="{'invisible': [('ghissue','=',0)]}"/>
+                    <field name="ghbranch"/>
+                   
+                    <button class="oe_inline" name="button_create_open_issue" type="object" string="Create GitHub Issue" help="" attrs="{'invisible': [('ghissue','!=',0)]}"/>
+                    <button class="oe_inline" name="button_create_open_issue" type="object" string="Open GitHub Issue" help="" attrs="{'invisible': [('ghissue','=',0)]}"/>
+                    <button class="oe_inline" name="button_create_open_branch" type="object" string="Create GitHub Branch" help="" attrs="{'invisible': [('ghbranch','!=',False)]}"/>
+                    <button class="oe_inline" name="button_create_open_branch" type="object" string="Open GitHub Branch" help="" attrs="{'invisible': [('ghbranch','=',False)]}"/>
+                    
+                </xpath>
+                
+            </field>
+        </record>
+        <record id="view_project_task_kan_form" model="ir.ui.view">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='project_id']" position="before">
+                    <field name="ghissue" attrs="{'invisible': [('ghissue','=',0)]}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_res_user_form" model="ir.ui.view">
+            <field name="name">res.user.form</field>
+            <field name="model">res.users</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='messaging']" position="after">
+                	<group string="GitHub" name="github"> 
+                	<field name="ghtoken"/>
+                	</group>
+                </xpath>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="project_github_ghaccount_form_view">
+                <field name="name">project.github.ghaccount.tree</field>
+                <field name="model">project_github.ghaccount</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="GitHub Account">
+                     <sheet string="GitHub Account">
+                    <group>
+                        <field name="name"/>
+                        <field name="ghtoken"/>
+                        <field name="ghrepo_ids"/>
+                        <button class="oe_inline oe_stat_button" name="button_fetch_repos" type="object" string=" Fetch Repos" help=""/>
+                        </group>
+                    </sheet>
+                    </form>
+                </field>
+            </record>
+            
+        <record model="ir.ui.view" id="project_github_ghaccount_tree_view">
+                <field name="name">project.github.ghaccount.tree</field>
+                <field name="model">project_github.ghaccount</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="tree_string">
+                        <field name="name"/>
+                    </tree>
+                </field>
+            </record>    
+            
+        <menuitem id="github_main" name="GitHub Configurations" parent="base.menu_definitions" sequence="60"/>
+        
+        <record model="ir.actions.act_window" id="action_project_github_ghaccount_view">
+                <field name="name">GitHub Accounts</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">project_github.ghaccount</field>
+		        <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="project_github_ghaccount_tree_view"/>
+            </record>
+            
+        <menuitem id="project_github_ghaccount_menu" name="GitHub Accounts" parent="github_main" action="action_project_github_ghaccount_view"/>
+
+        </data>
+        </openerp>
