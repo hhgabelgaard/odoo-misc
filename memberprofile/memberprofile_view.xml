@@ -1,0 +1,47 @@
+<openerp>
+<data>
+ <record model="ir.ui.view" id="memberprofile_member_form">
+            <field name="name">memberprofile.member.form</field>
+            <field name="model">memberprofile.member</field>
+            <field name="arch" type="xml">
+                <form string="Member Profile" version="7.0">
+                    <sheet string="Member Profile">
+                        
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="scout_name"/>
+                            
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="memberprofile_member_tree">
+            <field name="name">memberprofile.member.tree</field>
+            <field name="model">memberprofile.member</field>
+            <field name="arch" type="xml">
+                <tree string="Members">
+
+                    <field name="scout_name"/>
+                    <field name="partner_id"/>
+                    
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_memberprofile_member_tree" model="ir.actions.act_window">
+            <field name="name">Members</field>
+
+            <field name="res_model">memberprofile.member</field>
+            <field name="view_type">form</field>
+        </record>
+
+        <menuitem action="action_memberprofile_member_tree" id="memberprofile_member_tree_menu"
+                  name="Members" sequence="30" parent="base.menu_sales"/>
+
+				
+    </data>
+</openerp>
