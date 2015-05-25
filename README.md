@@ -3,4 +3,4 @@
 odoo-misc
 =========
 
-Miscelleanus Odoo modules 
+Miscelleanus Odoo modules for version 8.0
